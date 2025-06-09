@@ -4,6 +4,13 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      deploy:
+        description: "Deploy to production"
+        required: true
+        default: "true"
+        type: boolean
 
 jobs:
   build:
