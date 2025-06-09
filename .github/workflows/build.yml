@@ -11,10 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     env:
       NODE_ENV: production
-        VITE_WEB3FORMS_ACCESS_KEY: ${{ secrets.VITE_WEB3FORMS_ACCESS_KEY }}
-        VITE_GOOGLE_SCHOLAR_DOWNLOAD_URL: ${{ secrets.VITE_GOOGLE_SCHOLAR_DOWNLOAD_URL }}
-        VITE_RESUME_DATA_URL: ${{ secrets.VITE_RESUME_DATA_URL }}
-        VITE_RESUME_PDF_URL: ${{ secrets.VITE_RESUME_PDF_URL }}
+      VITE_WEB3FORMS_ACCESS_KEY: ${{ secrets.VITE_WEB3FORMS_ACCESS_KEY }}
+      VITE_GOOGLE_SCHOLAR_DOWNLOAD_URL: ${{ secrets.VITE_GOOGLE_SCHOLAR_DOWNLOAD_URL }}
+      VITE_RESUME_DATA_URL: ${{ secrets.VITE_RESUME_DATA_URL }}
+      VITE_RESUME_PDF_URL: ${{ secrets.VITE_RESUME_PDF_URL }}
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
