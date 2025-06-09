@@ -38,7 +38,6 @@ jobs:
         run: npm ci
       - name: Build
         env:
-          NODE_ENV: production
           VITE_WEB3FORMS_ACCESS_KEY: ${{ secrets.VITE_WEB3FORMS_ACCESS_KEY }}
           VITE_GOOGLE_SCHOLAR_DOWNLOAD_URL: ${{ secrets.VITE_GOOGLE_SCHOLAR_DOWNLOAD_URL }}
           VITE_RESUME_DATA_URL: ${{ secrets.VITE_RESUME_DATA_URL }}
