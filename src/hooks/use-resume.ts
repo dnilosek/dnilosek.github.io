@@ -11,7 +11,7 @@ export const useResume = () => {
     const fetchResume = async () => {
       try {
         const response = await fetch(
-          "https://raw.githubusercontent.com/dnilosek/resume/master/Dave_Nilosek%2C_PhD_CV.yaml"
+          import.meta.env.VITE_RESUME_DATA_URL || ""
         );
 
         const yamlText = await response.text();

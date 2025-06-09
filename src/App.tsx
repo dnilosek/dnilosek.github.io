@@ -61,6 +61,35 @@ export default function App() {
   }
 
   const { cv } = resume;
+  const { social_networks } = cv;
+
+  // Get social network URLs
+  const getSocialUrl = (network: string, username: string): string => {
+    switch (network.toLowerCase()) {
+      case "github":
+        return `https://github.com/${username}`;
+      case "linkedin":
+        return `https://linkedin.com/in/${username}`;
+      case "google scholar":
+        return `https://scholar.google.com/citations?user=${username}`;
+      default:
+        return "#";
+    }
+  };
+
+  // Get social network icon
+  const getSocialIcon = (network: string): string => {
+    switch (network.toLowerCase()) {
+      case "github":
+        return "logos:github-icon";
+      case "linkedin":
+        return "logos:linkedin-icon";
+      case "google scholar":
+        return "logos:google-icon";
+      default:
+        return "lucide:link";
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -97,18 +126,18 @@ export default function App() {
 
           <div className="mt-6 flex items-center gap-4">
             <div className="flex gap-3">
-              <Link href="https://github.com/dnilosek" isExternal>
-                <Icon icon="logos:github-icon" className="h-6 w-6" />
-              </Link>
-              <Link href="https://linkedin.com/in/dnilosek" isExternal>
-                <Icon icon="logos:linkedin-icon" className="h-6 w-6" />
-              </Link>
-              <Link
-                href="https://scholar.google.com/citations?user=dnilosek"
-                isExternal
-              >
-                <Icon icon="logos:google-icon" className="h-6 w-6" />
-              </Link>
+              {social_networks.map((social) => (
+                <Link
+                  key={social.network}
+                  href={getSocialUrl(social.network, social.username)}
+                  isExternal
+                >
+                  <Icon
+                    icon={getSocialIcon(social.network)}
+                    className="h-6 w-6"
+                  />
+                </Link>
+              ))}
             </div>
           </div>
         </div>

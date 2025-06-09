@@ -86,35 +86,7 @@ export const ContactSection: React.FC = () => {
 
   if (!resume) return null;
 
-  const { email: contactEmail, location, social_networks } = resume.cv;
-
-  // Get social network URLs
-  const getSocialUrl = (network: string, username: string): string => {
-    switch (network.toLowerCase()) {
-      case "github":
-        return `https://github.com/${username}`;
-      case "linkedin":
-        return `https://linkedin.com/in/${username}`;
-      case "google scholar":
-        return `https://scholar.google.com/citations?user=${username}`;
-      default:
-        return "#";
-    }
-  };
-
-  // Get social network icon
-  const getSocialIcon = (network: string): string => {
-    switch (network.toLowerCase()) {
-      case "github":
-        return "logos:github-icon";
-      case "linkedin":
-        return "logos:linkedin-icon";
-      case "google scholar":
-        return "logos:google-icon";
-      default:
-        return "lucide:link";
-    }
-  };
+  const { email: contactEmail, location } = resume.cv;
 
   return (
     <Card>

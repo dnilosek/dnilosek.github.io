@@ -32,7 +32,8 @@ export const useBibtex = () => {
 
         // Fetch from Google Scholar via CORS proxy
         const scholarUrl =
-          "https://scholar.googleusercontent.com/citations?view_op=export_citations&user=EvjtcE0AAAAJ&citsig=ACUpqDcAAAAAaEhyjKJmQ_2FLmf-Fp-jyRrHm50&hl=en";
+          import.meta.env.VITE_GOOGLE_SCHOLAR_DOWNLOAD_URL || "";
+
         const response = await fetch(
           `https://api.allorigins.win/get?url=${encodeURIComponent(scholarUrl)}`
         );
@@ -40,44 +41,48 @@ export const useBibtex = () => {
         let bibtexText = data.contents;
 
         // Clean up problematic lines with # symbols and add missing commas
-        const lines = bibtexText.split('\n');
+        const lines = bibtexText.split("\n");
         const cleanedLines = [];
-        
+
         for (let i = 0; i < lines.length; i++) {
           const line = lines[i];
           const nextLine = lines[i + 1];
-          
+
           // Remove lines that contain # for string concatenation
-          if (line.includes('#')) {
+          if (line.includes("#")) {
             // Skip these problematic lines entirely
             continue;
           }
-          
+
           // Skip lines with empty field values that cause parsing issues
           if (line.match(/^\s*\w+\s*=\s*\{\s*\}\s*,?\s*$/)) {
             continue;
           }
-          
+
           // Clean up LaTeX special characters that cause parsing issues
           let cleanedLine = line
-            .replace(/\{\\~n\}/g, 'ñ')
-            .replace(/\{\\~a\}/g, 'ã')
-            .replace(/\{\\~o\}/g, 'õ')
-            .replace(/\{\\'\{?e\}?\}/g, 'é')
-            .replace(/\{\\'\{?a\}?\}/g, 'á')
-            .replace(/\{\\'\{?i\}?\}/g, 'í')
-            .replace(/\{\\'\{?o\}?\}/g, 'ó')
-            .replace(/\{\\'\{?u\}?\}/g, 'ú')
-            .replace(/\{\\\.\{?([a-z])\}\}/g, '$1')  // Remove dot accents
-            .replace(/\{\\[`^'"~.=uvH]\{?([a-z])\}?\}/g, '$1') // Remove other accents
-            .replace(/\\/g, '') // Remove all backslashes
-            .replace(/&/g, 'and'); // Replace ampersands with 'and'
-          
+            .replace(/\{\\~n\}/g, "ñ")
+            .replace(/\{\\~a\}/g, "ã")
+            .replace(/\{\\~o\}/g, "õ")
+            .replace(/\{\\'\{?e\}?\}/g, "é")
+            .replace(/\{\\'\{?a\}?\}/g, "á")
+            .replace(/\{\\'\{?i\}?\}/g, "í")
+            .replace(/\{\\'\{?o\}?\}/g, "ó")
+            .replace(/\{\\'\{?u\}?\}/g, "ú")
+            .replace(/\{\\\.\{?([a-z])\}\}/g, "$1") // Remove dot accents
+            .replace(/\{\\[`^'"~.=uvH]\{?([a-z])\}?\}/g, "$1") // Remove other accents
+            .replace(/\\/g, "") // Remove all backslashes
+            .replace(/&/g, "and"); // Replace ampersands with 'and'
+
           // Check if this is a field line (contains =) and next line is closing brace
-          if (cleanedLine.includes('=') && nextLine && nextLine.trim() === '}') {
+          if (
+            cleanedLine.includes("=") &&
+            nextLine &&
+            nextLine.trim() === "}"
+          ) {
             // This is the last field in an entry, ensure it ends with comma
-            if (!cleanedLine.trim().endsWith(',')) {
-              cleanedLines.push(cleanedLine + ',');
+            if (!cleanedLine.trim().endsWith(",")) {
+              cleanedLines.push(cleanedLine + ",");
             } else {
               cleanedLines.push(cleanedLine);
             }
@@ -85,10 +90,10 @@ export const useBibtex = () => {
             cleanedLines.push(cleanedLine);
           }
         }
-        
+
         bibtexText = cleanedLines
-          .filter((line: string) => line.trim() !== '')
-          .join('\n');
+          .filter((line: string) => line.trim() !== "")
+          .join("\n");
 
         console.log("Cleaned BibTeX text:", bibtexText);
         // Parse the bibtex
